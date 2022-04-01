@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MyNotes.EntityLayer.Category>
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Category</h2>
+<p>
+    
+    <a href="#" class="btn btn-primary">Yeni Kayıt</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Title)</th>
+        <th>@Html.DisplayNameFor(model => model.Description)</th>
+        <th>Durum</th>
+        
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelitem => item.Title)</td>
+            <td>@Html.DisplayFor(modelitem => item.Description)</td>
+
+            <td>
+                @Html.ActionLink("Edit","Edit", new {id = item.Id} ) |
+                @Html.ActionLink("Details","Details", new {id = item.Id} ) |
+                @Html.ActionLink("Delete","Delete", new {id = item.Id} )
+            </td>
+        </tr>
+
+    }
+
+
+
+    </tbody>
+    
+</table>
+

@@ -16,6 +16,7 @@ namespace MyNotes.EntityLayer
         [StringLength(150)]
         public string Description { get; set; }
 
-        public virtual ICollection<Note> Notes { get; set; }
+        public virtual List<Note> Notes { get; set; }=new List<Note>();
+        
     }
 }
