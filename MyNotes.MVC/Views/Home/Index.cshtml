@@ -70,12 +70,12 @@
                     </div>
                 </div>
             }
-        
+
         </div>
     </div>
 </section>
 
-@Bootstrap.ModalPopup("modal_comment","Yorumlar")
+@Bootstrap.ModalPopup("modal_comment", "Yorumlar")
 <script src="../../Scripts/jquery-3.6.0.min.js"></script>
 <script>
     var noteId = -1;
@@ -88,4 +88,70 @@
                 $(modalCommentBodyId).load("/Comment/ShowNoteComments/" + noteId);
             });
     });
+
+    function doComment(btn, e, commentId, spanId) {
+        var button = $(btn);
+        var mode = button.data('edit-mode');
+        if (e === 'edit_clicked') {
+            if (!mode) {
+                button.data('edit-mode', true);
+                button.removeClass('btn-warning');
+                button.addClass('btn-success');
+                var btnSpan = button.find('span');
+                btnSpan.removeClass('bi-pencil');
+                btnSpan.addClass('bi-check');
+                $(spanId).addClass('editable');
+                $(spanId).attr('contenteditable', true);
+                $(spanId).focus();
+            } else {
+                button.data('edit-mode', false);
+                button.removeClass('btn-success');
+                button.addClass('btn-warning');
+                var btnSpan = button.find('span');
+                btnSpan.removeClass('bi-check');
+                btnSpan.addClass('bi-pencil');
+                $(spanId).addClass('editable');
+                $(spanId).attr('contenteditable', false);
+                $(spanId).focus();
+
+                var txt = $(spanId).text();
+                console.log(txt);
+                $.ajax({
+                    method: "POST",
+                    url: "/Comment/Edit/" + commentId,
+                    data: { text: txt }
+                }).done(function (data) {
+                    if (data.result) {
+                        //yorumlari tekrar yukleme
+                        $(modalCommentBodyId).load("/Comment/ShowNoteComments/" + noteId);
+                    } else {
+                        alert("Yorumunuz Guncellenemedi.");
+                    }
+                }).fail(function () {
+                    alert("Sunucu ile baglanti kurulamadi.");
+                });
+            }
+        }
+        else if (e === "delete_clicked") {
+            var dialog_res = confirm("Yarum silinsin mi?");
+            if (!dialog_res) {
+                return false;
+            }
+            $.ajax({
+                method: "GET",
+                url:"/Comment/Delete/"+commentId
+            }).done(function(data) {
+                if (data.result) {
+                    $(modalCommentBodyId).load("/Comment/ShowNoteComments/" + noteId);  
+                } else {
+                    alert("Yorum Silinemedi");
+                }
+            }).fail(function() {
+                alert("Sunucu ile bağlantı kurulamadı.");
+            })
+        }
+    }
+            
+        
+    
 </script>

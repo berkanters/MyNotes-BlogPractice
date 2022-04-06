@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using MyNotes.Common;
 using MyNotes.EntityLayer;
 
 namespace MyNotes.DataAccessLayer
@@ -76,8 +77,10 @@ namespace MyNotes.DataAccessLayer
         {
             if (entity is BaseEntity o)
             {
-                o.ModifiedUserName = "system";
+
+                o.ModifiedUserName = App.Common.GetCurrentUserName();
                 o.ModifiedOn= DateTime.Now;
+                
             }
 
             return Save();
