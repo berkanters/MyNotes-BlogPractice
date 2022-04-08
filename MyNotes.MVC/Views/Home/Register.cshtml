@@ -1,5 +1,5 @@
 ﻿@using MyNotes.BusinessLayer.ValueObject
-@model LoginViewModel
+@model RegisterViewModel
 @{
     ViewBag.Title = "Register";
 }
@@ -9,7 +9,7 @@
     <div class="logreg mt-4 flex-column justify-content-between">
         <main class="form-signin">
             <form>
-                <h1 class="h3 mb-3 fw-normal text-center">Giriş</h1>
+                <h1 class="h3 mb-3 fw-normal text-center">Kayıt Ol</h1>
                 @Html.ValidationSummary(false)
 
                 @if (ViewBag.SetLink != null)
@@ -18,28 +18,28 @@
                 }
 
                 <div class="form-floating">
-                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Adı", id = "floatingInput" })
-                    <label for="floatingInput">Kullanici Adi</label>
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Adı", id = "floatingInput" })
+                    <label for="floatingInput">Adı</label>
                 </div>
                 <div class="form-floating">
-                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Soyadı", id = "floatingInput" })
+                    @Html.TextBoxFor(model => model.Lastname, new { @class = "form-control", placeholder = "Soyadı", id = "floatingInput" })
                     <label for="floatingInput">Soyadı</label>
                 </div>
                 <div class="form-floating">
-                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Kullanici Adı", id = "floatingInput" })
-                    <label for="floatingInput">Kullanici Adi</label>
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Kullanici Adı", id = "floatingInput" })
+                    <label for="floatingInput">Kullanıcı Adı</label>
                 </div>
                 <div class="form-floating">
-                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Email", id = "floatingInput" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email", id = "floatingInput" })
                     <label for="floatingInput">Email</label>
                 </div>
                 <div class="form-floating">
                     @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Sifre", id = "floatingPassword", type = "password" })
                     @*<input type="password" class="form-control" id="floatingPassword" placeholder="Sifre">*@
-                    <label for="floatingPassword">Sifre</label>
+                    <label for="floatingPassword">Şifre</label>
                 </div>
                 <div class="form-floating">
-                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "şifre Tekrarı", id = "floatingPassword", type = "password" })
+                    @Html.TextBoxFor(model => model.Repassword, new { @class = "form-control", placeholder = "şifre Tekrarı", id = "floatingPassword", type = "password" })
                     <label for="floatingPassword">Şifre Tekrarı</label>
                 </div>
 
@@ -61,7 +61,7 @@
         $("header").hide();
         $("footer").hide();
         $("#category2").hide();
-        $("#category3").removeClass("col-md-10").addClass("col-md d-flex justify-content-center mt-5");
+        $("#category3").removeClass("col-md-9").addClass("col-md d-flex justify-content-center mt-1");
     });
 </script>
 

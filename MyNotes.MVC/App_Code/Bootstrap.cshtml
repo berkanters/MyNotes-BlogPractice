@@ -1,4 +1,11 @@
-﻿@helper ModalPopup(string id="myModal",string title="Modal Title",bool showCloseButton=true)
+﻿@helper LinkButton(string url="", string color="",string addtionalClass="",string title="", string id = "",string icon="",string text="")
+{
+    <a href="@url" class="btn btn-@color @addtionalClass" title="@title" id="@id"><i class="@icon"></i></a>
+}
+
+
+
+@helper ModalPopup(string id="myModal",string title="Modal Title",bool showCloseButton=true)
 {
     <!-- Button trigger modal -->
     @*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">

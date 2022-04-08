@@ -1,7 +1,7 @@
 ﻿@using MyNotes.BusinessLayer
 @{
-    NoteManager nm = new NoteManager();
-    var lst = nm.List();
+//NoteManager nm = new NoteManager();
+//var lst = nm.List();
 }
 @{
     ViewBag.Title = "Home Page";
@@ -13,7 +13,7 @@
             @{
                 int i = 0;
             }
-            @foreach (var note in lst)
+            @foreach (var note in Model)
             {
                 <div class="col mb-5">
                     <div class="card h-100">
@@ -139,17 +139,38 @@
             }
             $.ajax({
                 method: "GET",
-                url:"/Comment/Delete/"+commentId
+                url: "/Comment/Delete/" + commentId
             }).done(function(data) {
                 if (data.result) {
-                    $(modalCommentBodyId).load("/Comment/ShowNoteComments/" + noteId);  
+                    $(modalCommentBodyId).load("/Comment/ShowNoteComments/" + noteId);
                 } else {
                     alert("Yorum Silinemedi");
                 }
             }).fail(function() {
                 alert("Sunucu ile bağlantı kurulamadı.");
-            })
+            });
         }
+        else if (e === "new_clicked" ) {
+            var txt = $("#new_comment_text").val();
+            //console.log("txt :" + txt);
+
+            $.ajax({
+                method: "POST",
+                url: "/Comment/Create",
+                data:{"text":txt,"noteid":noteId}
+            }).done(function (data) {
+                if (data.result) {
+                    //yorumlari tekrar yukleme
+                    $(modalCommentBodyId).load("/Comment/ShowNoteComments/" + noteId);
+                } else {
+                    alert("Yorumunuz Eklenemedi.");
+                }
+            }).fail(function () {
+                alert("Sunucu ile baglanti kurulamadi.");
+            });
+            
+        }
+       
     }
             
         

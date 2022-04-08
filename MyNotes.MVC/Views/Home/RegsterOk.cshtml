@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "RegsterOk";
+}
+
+<link href="/Content/Login-RegisterStyle.css" rel="stylesheet" />
+
+<div class="logreg justify-content-center">
+    <div class="form-signin justify-content-center">
+        <form>
+            <h1 class="h3 mb-3 fw-normal">Yönlendiriliyorsunuz.....</h1>
+            <div class="text-success">
+                <h2>
+                    <span>Kayıt Oldunuz</span>
+                </h2>
+                <hr />
+                <p class="text-justify">Lütfen gönderdiğimiz aktivasyon mailine yıklayarak mailinizi aktif ediniz</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("header").hide();
+        $("footer").hide();
+        $("#category2").hide();
+        $("#category3").removeClass("col-md-9").addClass("col-md d-flex justify-content-center mt-5");
+    });
+</script>

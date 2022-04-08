@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyNotes.BusinessLayer;
+using MyNotes.BusinessLayer.Model;
 using MyNotes.EntityLayer;
 
 
@@ -49,7 +50,7 @@ namespace MyNotes.MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create(Comment comment,int? noteId)
         {
             ModelState.Remove("CreatedOn");
@@ -68,7 +69,7 @@ namespace MyNotes.MVC.Controllers
                     return new HttpNotFoundResult();
                 }
                 comment.Note=note;
-                comment.Owner=note.Owner;
+                comment.Owner=CurrentSession.User;
                 if (cm.Insert(comment)>0)
                 {
                     return Json(new {result = true}, JsonRequestBehavior.AllowGet);

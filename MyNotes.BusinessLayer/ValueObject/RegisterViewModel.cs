@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyNotes.BusinessLayer.ValueObject
 {
-    internal class RegisterViewModel
+    public class RegisterViewModel
     {
         [DisplayName("Adı"), Required(ErrorMessage = "{0} alanı boş geçilemez"),StringLength(30,ErrorMessage = "{0} max {1} karakter olmalı")]
         public string Name { get; set; }

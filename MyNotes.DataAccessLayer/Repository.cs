@@ -42,7 +42,7 @@ namespace MyNotes.DataAccessLayer
             {
                 DateTime now=DateTime.Now;
                 //BaseEntity o = entity as BaseEntity; //T nesnesinde sadece BaseEntity değerlerine ulaş
-                o.ModifiedUserName = "system";
+                o.ModifiedUserName = App.Common.GetCurrentUserName();
                 o.ModifiedOn= now;
                 o.CreatedOn=now;
                 //o.ModifiedOn= DateTime.Now;

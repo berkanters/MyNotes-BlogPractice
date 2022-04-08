@@ -1,11 +1,13 @@
-﻿@using MyNotes.BusinessLayer
+﻿@using System.Web.UI.WebControls
+@using MyNotes.BusinessLayer
+@using MyNotes.BusinessLayer.Model
 @using MyNotes.EntityLayer
 @*@using MyNotes.MVC.Models*@
 
 @{
     CategoryManager cm = new CategoryManager();
     //List<Category> list = cm.List();
-    var list = cm.List();
+    var list = CacheHelper.GetCategoriesFromCache();
 }
 
 <div id="category1">
@@ -14,20 +16,64 @@
     </p>
 
     <div class="list-group flex-column ">
-        <a href="@Url.Action("Index","Home")" class="list-group-item-action active">
+        <a href="@Url.Action("Index","Home")" class="list-group-item list-group-item-action">
             <span>
                 <i class="fas fa-angle-double-right"></i> Tümü
+
             </span>
         </a>
+
         @foreach (var cat in list)
         {
-            <a href="/Home/CategoryId@cat.Id" title="@cat.Description" class="list-group-item list-group-item-action">
-                <span>
-                    <i class="fas fa-angle-double-right"></i>
-                </span> @cat.Title
-            </a>
+            if (cat.Id== ViewBag.CategoryId)
+            {
+                <a href="/Home/ByCategoryId/@cat.Id" title="@cat.Description" class="list-group-item list-group-item-action active">
+
+
+                    <span>
+                        <i class="fas fa-angle-double-right"> </i>
+
+                    </span>
+                    @cat.Title
+
+                    <span class="badge badge-danger badge-pill bg-black" style="float:right">@cat.Notes.Count</span>
+
+
+                </a>
+            }
+            else
+            {
+    <a href="/Home/ByCategoryId/@cat.Id" title="@cat.Description" class="list-group-item list-group-item-action">
+
+
+        <span>
+            <i class="fas fa-angle-double-right"> </i>
+
+        </span>
+        @cat.Title
+
+        <span class="badge badge-danger badge-pill bg-black" style="float:right">@cat.Notes.Count</span>
+
+
+    </a>
+            }
+
+    
+            
+
 
 
         }
     </div>
 </div>
+@*<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(".list-group .list-group-item").click(function(e) {
+        $(".list-group .list-group-item").removeClass("active");
+        $(e.target).addClass("active");
+        
+    });
+    $(".list-group .list-group-item").on("click", function(){
+        sessionStorage.addClass("active");
+    });
+</script>*@
