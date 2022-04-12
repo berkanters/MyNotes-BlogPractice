@@ -31,7 +31,7 @@ namespace MyNotes.MVC.Controllers
 
             List<Note> notes = nm.QList().Where(s => s.Category.Id == id && s.IsDraft == false)
                 .OrderByDescending(s => s.ModifiedOn).ToList();
-            ViewBag.CategoryId = id;
+            ViewBag.CategoryId1 = id;
             return View("Index", notes);
             
         }
@@ -122,6 +122,113 @@ namespace MyNotes.MVC.Controllers
             }
             return View(errors);
         }
+        public ActionResult ShowProfile()
+        {
+
+            if (CurrentSession.User is MyNotesUser currentUser) res = mum.GetUserById(currentUser.Id);
+            {
+                if (res.Errors.Count > 0)
+                { 
+                    ErrorViewModel errorNotifyObj = new ErrorViewModel()
+                    {
+                        Title = "Hata Oluştu",
+                        Items = res.Errors
+                    };
+                    return View("Error", errorNotifyObj);
+                }
+               
+            }
+            return View(res.Result);
+        }
+
+        public ActionResult EditProfile()
+        {
+            if (CurrentSession.User is MyNotesUser currentUser) res = mum.GetUserById(currentUser.Id);
+            {
+                if (res.Errors.Count > 0)
+                {
+                    ErrorViewModel errorNotifyObj = new ErrorViewModel()
+                    {
+                        Title = "Hata Oluştu",
+                        Items = res.Errors
+                    };
+                    return View("Error", errorNotifyObj);
+                }
+                return View(res.Result);
+            }
+            
+            }
+
+        [HttpPost]
+        public ActionResult EditProfile(MyNotesUser model, HttpPostedFileBase ProfileImage)
+        {
+            ModelState.Remove("ModifiedUserName");
+            ModelState.Remove("CreatedOn");
+            ModelState.Remove("ModifiedOn");
+
+            if (ModelState.IsValid)
+            {
+                if (ProfileImage != null &&
+                    (ProfileImage.ContentType == "image/jpeg" ||
+                     ProfileImage.ContentType == "image/jpg" ||
+                     ProfileImage.ContentType == "image/png"))
+                {
+                    string filename = $"user_{model.Id}.{ProfileImage.ContentType.Split('/')[1]}";
+                    ProfileImage.SaveAs(Server.MapPath($"~/images/{filename}"));
+                    model.ProfileImageFileName = filename;
+                }
+                //{
+                //    ImageUploadResult uploadResult = ImageUploader.UploadSingleImage(ProfileImage, "~/Uploads/",
+                //        new ResizeOptions()
+                //        {
+                //            Width = 200,
+                //            Height = 200
+                //        });
+                //    if (uploadResult.Errors.Count > 0)
+                //    {
+                //        uploadResult.Errors.ForEach(x => ModelState.AddModelError("", x));
+                //        return View(model);
+                //    }
+                //    model.ProfileImageFilename = uploadResult.UploadedImagePath;
+                //}
+                res = mum.UpdateProfile(model);
+                if (res.Errors.Count > 0)
+                {
+                    ErrorViewModel errorNotifyObj = new ErrorViewModel()
+                    {
+                        Title = "Profil Güncellenemedi",
+                        Items = res.Errors,
+                        RedirectingUrl = "/Home/EditProfile"
+                    };
+                    return RedirectToAction("Error", errorNotifyObj);
+                }
+                
+            }
+            CurrentSession.Set("login", res.Result);
+            return RedirectToAction("ShowProfile");
+        }
+
+        public ActionResult DeleteProfile()
+        {
+            if (CurrentSession.User is MyNotesUser currentUser)
+            {
+                res = mum.RemoveUserById(currentUser.Id);
+            }
+            
+            if (res.Errors.Count > 0)
+            {
+                    ErrorViewModel errorNotifyObj = new ErrorViewModel()
+                    {
+                        Title = "Hata Oluştu",
+                        Items = res.Errors,
+                        RedirectingUrl = "/Home/ShowProfile"
+                    };
+                    return View("Error", errorNotifyObj);
+            }
+            CurrentSession.Clear();
+            return RedirectToAction("Index");
+        }
+
 
         public ActionResult Index()
         {

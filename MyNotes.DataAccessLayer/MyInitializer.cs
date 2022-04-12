@@ -18,9 +18,10 @@ namespace MyNotes.DataAccessLayer
                 Name = "Berkant",
                 LastName = "Ersoy",
                 Email = "berkantersoy1995@gmail.com",
-                //ActivateGuid = Guid.NewGuid(),
+                ActivateGuid = Guid.NewGuid(),
                 IsActive = true,
                 IsAdmin = true,
+                ProfileImageFileName = "user.png",
                 UserName = "BerkantE",
                 Password = "12345",
                 CreatedOn = DateTime.Now,
@@ -33,9 +34,10 @@ namespace MyNotes.DataAccessLayer
                 Name = "Recep",
                 LastName = "Ivedik",
                 Email = "reco3434@gmail.com",
-                //ActivateGuid = Guid.NewGuid(),
+                ActivateGuid = Guid.NewGuid(),
                 IsActive = true,
                 IsAdmin = false,
+                ProfileImageFileName = "user.png",
                 UserName = "Reco43",
                 Password = "54321",
                 CreatedOn = DateTime.Now,
@@ -81,7 +83,7 @@ namespace MyNotes.DataAccessLayer
                 //Adding Notes
                 for (int j = 0; j < FakeData.NumberData.GetNumber(5,9); j++)
                 {
-                    MyNotesUser owner = userList[FakeData.NumberData.GetNumber(1, userList.Count)];
+                    MyNotesUser owner = userList[FakeData.NumberData.GetNumber(0, userList.Count-1)];
                     Note note = new Note()
                     {
                         Title = FakeData.TextData.GetAlphabetical(FakeData.NumberData.GetNumber(5 ,25)),
@@ -97,7 +99,7 @@ namespace MyNotes.DataAccessLayer
                     //Adding Comment
                     for (int k = 0; k < FakeData.NumberData.GetNumber(3,5); k++)
                     {
-                        MyNotesUser comment_owner = userList[FakeData.NumberData.GetNumber(1, userList.Count)];
+                        MyNotesUser comment_owner = userList[FakeData.NumberData.GetNumber(0, userList.Count-1)];
 
                         Comment comment = new Comment()
                         {

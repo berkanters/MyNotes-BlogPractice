@@ -20,7 +20,7 @@ namespace MyNotes.BusinessLayer
 
         public BusinessLayerResult<MyNotesUser> LoginUser(LoginViewModel data)
         {
-            res.Result = Find(s => s.UserName == data.UserName && s.Password == data.Password);
+            res.Result = Find(s => s.UserName == data.UserName && s.Password == data.Password && s.IsDelete != true);
             if (res.Result!=null)
             {
                 if (!res.Result.IsActive)
@@ -64,7 +64,8 @@ namespace MyNotes.BusinessLayer
                     UserName = data.Username,
                     IsActive = false,
                     IsAdmin = false,
-                    ActivateGuid = Guid.NewGuid()
+                    ActivateGuid = Guid.NewGuid(),
+                    ProfileImageFileName = "user.png"
                 });
                 if (dbResult>0)
                 {
@@ -98,5 +99,133 @@ namespace MyNotes.BusinessLayer
             }
             return res;
         }
+
+        public BusinessLayerResult<MyNotesUser> Insert(MyNotesUser data)
+        {
+            MyNotesUser user = Find(s => s.UserName == data.UserName || s.Email==data.Email);
+            res.Result = data;
+            if (user != null)
+            {
+                if (user.UserName == data.UserName)
+                {
+                    res.AddError(ErrorMessageCode.UserNameAlreadyExist, "Bu Kullanıcı Daha Önce Alınmış");
+                }
+
+                if (user.Email == data.Email)
+                {
+                    res.AddError(ErrorMessageCode.EmailAlreadyExist, "Bu Email Daha Önce kullanılmış");
+                }
+
+            }
+            else
+            {
+                res.Result.ActivateGuid = Guid.NewGuid();
+                if (base.Insert(res.Result) == 0)
+                {
+                    res.AddError(ErrorMessageCode.UserCouldNotInserted, "Kullanıcı Eklenemedi");
+
+                }
+            }
+            return res;
+        }
+        public new BusinessLayerResult<MyNotesUser> Update(MyNotesUser data)
+        {
+            MyNotesUser db_user = Find(s => s.UserName == data.UserName || s.Email == data.Email);
+            res.Result = data;
+            if (db_user != null && db_user.Id != data.Id)
+            {
+                if (db_user.UserName == data.UserName)
+                {
+                    res.AddError(ErrorMessageCode.UserNameAlreadyExist, "Bu Kullanıcı Daha Önce Alınmış");
+                }
+
+                if (db_user.Email == data.Email)
+                {
+                    res.AddError(ErrorMessageCode.EmailAlreadyExist, "Bu Email Daha Önce kullanılmış");
+                }
+
+            }
+            else
+            {
+                res.Result = Find(s => s.Id == data.Id);
+                res.Result.Email = data.Email;
+                res.Result.Name = data.Name;
+                res.Result.LastName = data.LastName;
+                res.Result.Password = data.Password;
+                res.Result.UserName = data.UserName;
+                res.Result.IsActive = data.IsActive;
+                res.Result.IsAdmin = data.IsAdmin;
+                if (base.Update(res.Result) == 0)
+                {
+                    res.AddError(ErrorMessageCode.UserCouldNotUpdated, "Kullanıcı Güncellenemedi");
+                }
+            }
+            return res;
+        }
+        public BusinessLayerResult<MyNotesUser> UpdateProfile(MyNotesUser data)
+        {
+            MyNotesUser user = Find(s => s.Id != data.Id && (s.UserName == data.UserName || s.Email == data.Email));
+            if (user != null && user.Id != data.Id)
+            {
+                if (user.UserName == data.UserName)
+                {
+                    res.AddError(ErrorMessageCode.UserAlreadyActive, "Bu kullanici adi daha once kaydedilmis.");
+                }
+                if (user.Email == data.Email)
+                {
+                    res.AddError(ErrorMessageCode.EmailAlreadyExist, "Bu email daha once kaydedilmis.");
+                }
+                return res;
+            }
+            res.Result = Find(s => s.Id == data.Id);
+            res.Result.Email = data.Email;
+            res.Result.Name = data.Name;
+            res.Result.LastName = data.LastName;
+            res.Result.Password = data.Password;
+            res.Result.UserName = data.UserName;
+            if (!string.IsNullOrEmpty(data.ProfileImageFileName))
+            {
+                res.Result.ProfileImageFileName = data.ProfileImageFileName;
+            }
+
+            if (base.Update(res.Result) == 0)
+            {
+                res.AddError(ErrorMessageCode.ProfileCouldNotUpdated, "Profil guncellenemedi.");
+            }
+
+            return res;
+        }
+
+        public BusinessLayerResult<MyNotesUser> RemoveUserById(int id)
+        {
+            res.Result = Find(x => x.Id == id);
+            if (res.Result != null)
+            {
+                
+                res.Result.IsDelete = true;
+                if (base.Update(res.Result) == 0)
+                {
+                    res.AddError(ErrorMessageCode.UserCouldNotRemove, "Kullanıcı silinemedi");
+                    return res;
+                }
+            }
+            else
+            {
+                res.AddError(ErrorMessageCode.UserCouldNotFind, "Kullanıcı bulunamadı");
+            }
+            return res;
+        }
+        public BusinessLayerResult<MyNotesUser> GetUserById(int id)
+        {
+            res.Result = Find(x => x.Id == id);
+            if (res.Result == null)
+            {
+                res.AddError(ErrorMessageCode.UserNotFound, "Kullanici bulunamadi");
+
+            }
+
+            return res;
+        }
+
     }
 }

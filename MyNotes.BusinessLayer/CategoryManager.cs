@@ -40,5 +40,30 @@ namespace MyNotes.BusinessLayer
             cmv.Category.ModifiedOn = cat.ModifiedOn;
             return cmv;
         }
+
+        public int UpdateCat(CategoryViewModel cat)
+        {
+            Category entity = repo.Find(s => s.Id == cat.Category.Id);
+            entity.Title = cat.Category.Title;
+            entity.Description = cat.Category.Description;
+            return repo.Update(entity);
+        }
+        public CategoryViewModel GetEditCat(int? id)
+        {
+            var cat = repo.QList().FirstOrDefault(x => x.Id == id);
+            CategoryViewModel cmv = new CategoryViewModel();
+            cmv.Category.Id = cat.Id;
+            cmv.Category.Title = cat.Title;
+            cmv.Category.Description = cat.Description;
+            cmv.Category.CreatedOn = cat.CreatedOn;
+            cmv.Category.ModifiedUserName = cat.ModifiedUserName;
+            cmv.Category.ModifiedOn = cat.ModifiedOn;
+            return cmv;
+            
+        }
+        public int DeleteCat(int? id)
+        {
+            return repo.Delete(repo.Find(s => s.Id == id));
+        }
     }
 }

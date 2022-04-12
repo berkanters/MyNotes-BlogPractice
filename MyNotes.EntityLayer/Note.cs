@@ -17,7 +17,7 @@ namespace MyNotes.EntityLayer
         public string text { get; set; }
         public bool IsDraft { get; set; }
         public int LikeCount { get; set; }
-        
+        public int? CategoryId { get; set; }
         public virtual MyNotesUser Owner { get; set; }
 
         public virtual Category Category { get; set; }

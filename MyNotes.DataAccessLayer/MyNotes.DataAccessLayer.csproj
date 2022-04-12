@@ -55,6 +55,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="Migrations\202204120742347_InitialCreate.cs" />
+    <Compile Include="Migrations\202204120742347_InitialCreate.designer.cs">
+      <DependentUpon>202204120742347_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204121006483_Isdelete.cs" />
+    <Compile Include="Migrations\202204121006483_Isdelete.designer.cs">
+      <DependentUpon>202204121006483_Isdelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyInitializer.cs" />
     <Compile Include="MyNotesContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,6 +86,14 @@
       <Project>{e539aef8-7f7b-4ade-b649-73d9917dd652}</Project>
       <Name>MyNotes.EntityLayer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202204120742347_InitialCreate.resx">
+      <DependentUpon>202204120742347_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204121006483_Isdelete.resx">
+      <DependentUpon>202204121006483_Isdelete.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
