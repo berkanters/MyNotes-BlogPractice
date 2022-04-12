@@ -17,17 +17,17 @@ namespace MyNotes.EntityLayer
         public string text { get; set; }
         public bool IsDraft { get; set; }
         public int LikeCount { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public virtual MyNotesUser Owner { get; set; }
 
         public virtual Category Category { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual List<Comment> Comments { get; set; }=new List<Comment>();
 
-        public ICollection<Liked> Likes { get; set; }
-        
-        
+        public List<Liked> Likes { get; set; } = new List<Liked>();
+
+
         //eager loading:Oluşturacağım nesnede alt bağlamlar var ise hepsini getirir
-        
+
         //Öğrenciler ve sınıflar tablom var bunların arasında foreign key bağlantım var
         //Öğrenciler Listesi alıdğımda eğer eager loading kullanarak alıyorsam
         /*
@@ -45,7 +45,7 @@ namespace MyNotes.EntityLayer
          *
          *
          */
-        
+
         //Lazy loading: Oluşturulan nesnede getirilir ilgili alt bağlamlar yüklenmez 
         //Virtual yaptığımız zaman 
     }

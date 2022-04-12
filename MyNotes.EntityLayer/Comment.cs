@@ -15,5 +15,6 @@ namespace MyNotes.EntityLayer
         public string Text { get; set; }
 
         public virtual Note Note { get; set; }
+        public virtual MyNotesUser Owner { get; set; }
     }
 }

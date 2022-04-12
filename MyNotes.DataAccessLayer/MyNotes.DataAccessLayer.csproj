@@ -40,6 +40,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FakeData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeData.1.0.0\lib\FakeData.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -51,18 +54,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRepository.cs" />
+    <Compile Include="Migrations\202204120742347_InitialCreate.cs" />
+    <Compile Include="Migrations\202204120742347_InitialCreate.designer.cs">
+      <DependentUpon>202204120742347_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204121006483_Isdelete.cs" />
+    <Compile Include="Migrations\202204121006483_Isdelete.designer.cs">
+      <DependentUpon>202204121006483_Isdelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MyInitializer.cs" />
     <Compile Include="MyNotesContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MyNotes.Common\MyNotes.Common.csproj">
+      <Project>{A77C0CB6-22A7-473F-97C8-B2943DCEBA18}</Project>
+      <Name>MyNotes.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyNotes.CoreLayer\MyNotes.CoreLayer.csproj">
+      <Project>{4883fabe-6df2-417d-ba7e-043d100ec318}</Project>
+      <Name>MyNotes.CoreLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyNotes.EntityLayer\MyNotes.EntityLayer.csproj">
       <Project>{e539aef8-7f7b-4ade-b649-73d9917dd652}</Project>
       <Name>MyNotes.EntityLayer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202204120742347_InitialCreate.resx">
+      <DependentUpon>202204120742347_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204121006483_Isdelete.resx">
+      <DependentUpon>202204121006483_Isdelete.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

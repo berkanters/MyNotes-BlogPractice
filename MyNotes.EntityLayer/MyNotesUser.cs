@@ -23,11 +23,14 @@ namespace MyNotes.EntityLayer
         public string Password { get; set; }
         public bool IsActive { get; set; }
         [Required]
-        public Guid ActivateGuid { get; set; }
+        public Guid ActivateGuid { get; set; } = Guid.NewGuid();
+
+        public bool IsDelete { get; set; } = false;
         public bool IsAdmin { get; set; }
-        public virtual IList<Note> Notes { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Liked> Likes{ get; set; }
+        public string ProfileImageFileName { get; set; }
+        public virtual List<Note> Notes { get; set; }
+        public virtual List<Comment> Comments { get; set; }
+        public virtual List<Liked> Likes { get; set; }
 
     }
 }
